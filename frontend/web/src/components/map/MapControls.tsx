@@ -9,6 +9,8 @@ interface MapControlsProps {
   realtime: boolean;
   onToggleRealtime: () => void;
   locating: boolean;
+  fogEnabled: boolean;
+  onToggleFog: () => void;
 }
 
 export function MapControls({
@@ -18,9 +20,19 @@ export function MapControls({
   realtime,
   onToggleRealtime,
   locating,
+  fogEnabled,
+  onToggleFog,
 }: MapControlsProps) {
   return (
     <div className="absolute bottom-6 right-4 z-20 flex flex-col gap-2">
+      <ControlButton
+        label={fogEnabled ? "Hide fog of war" : "Show fog of war"}
+        onClick={onToggleFog}
+        active={fogEnabled}
+      >
+        <span>{fogEnabled ? "🌫️" : "🗺️"}</span>
+      </ControlButton>
+
       <ControlButton label="Toggle live crew" onClick={onToggleRealtime} active={realtime}>
         <span className={realtime ? "flyby-pulse-soft" : undefined}>{realtime ? "📡" : "⏸️"}</span>
       </ControlButton>

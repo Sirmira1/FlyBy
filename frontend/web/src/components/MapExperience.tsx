@@ -51,6 +51,26 @@ export default function MapExperience({ initialMarkers }: MapExperienceProps) {
   const [source, setSource] = useState<AnyMarker[]>(initialMarkers);
   const [live, setLive] = useState(true);
   const [syncing, setSyncing] = useState(false);
+  const [fogEnabled, setFogEnabled] = useState(true);
+
+  // Restore the fog preference after mount (kept out of the initializer to
+  // avoid an SSR/client hydration mismatch).
+  useEffect(() => {
+    const saved = localStorage.getItem("flyby.fog");
+    if (saved !== null) setFogEnabled(saved === "1");
+  }, []);
+
+  const toggleFog = useCallback(() => {
+    setFogEnabled((v) => {
+      const next = !v;
+      try {
+        localStorage.setItem("flyby.fog", next ? "1" : "0");
+      } catch {
+        /* storage unavailable — keep the in-memory preference */
+      }
+      return next;
+    });
+  }, []);
 
   const { profile } = useSession();
   const pref = profile?.unit_pref ?? "km/h";
@@ -266,7 +286,7 @@ export default function MapExperience({ initialMarkers }: MapExperienceProps) {
             onSelectMarker={handleSelectMarker}
             onSelectCluster={handleSelectCluster}
           />
-          <FogLayer cells={exploration.exploredCells} />
+          <FogLayer cells={exploration.exploredCells} enabled={fogEnabled} />
           <UserLocationDot position={userLocation.position} />
         </MapView>
 
@@ -288,6 +308,8 @@ export default function MapExperience({ initialMarkers }: MapExperienceProps) {
           realtime={live}
           onToggleRealtime={() => setLive((value) => !value)}
           locating={userLocation.status === "locating"}
+          fogEnabled={fogEnabled}
+          onToggleFog={toggleFog}
         />
 
         <TripPanel

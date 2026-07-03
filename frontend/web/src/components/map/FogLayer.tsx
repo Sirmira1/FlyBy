@@ -13,7 +13,13 @@ import { useMapContext } from "./map-context";
 const SOURCE_ID = "flyby-fog";
 const LAYER_ID = "flyby-fog-layer";
 
-export function FogLayer({ cells }: { cells: string[] }) {
+export function FogLayer({
+  cells,
+  enabled = true,
+}: {
+  cells: string[];
+  enabled?: boolean;
+}) {
   const { map } = useMapContext();
 
   // Add the fog source + layer once, and tear it down when the map goes away.
@@ -51,6 +57,17 @@ export function FogLayer({ cells }: { cells: string[] }) {
     const source = map.getSource(SOURCE_ID) as GeoJSONSource | undefined;
     if (source) source.setData(buildFogGeoJSON(cells) as GeoJSON.Feature);
   }, [map, cells]);
+
+  // Show/hide the whole fog layer when the user toggles it.
+  useEffect(() => {
+    if (map.getLayer(LAYER_ID)) {
+      map.setLayoutProperty(
+        LAYER_ID,
+        "visibility",
+        enabled ? "visible" : "none",
+      );
+    }
+  }, [map, enabled]);
 
   return null;
 }
