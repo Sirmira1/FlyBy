@@ -1,0 +1,25 @@
+Frontend
+ 
+npx create-expo-app@latest mobile
+npx create-expo-app@latest mobile --template blank
+
+Frontend/Mobile
+
+npm install @react-navigation/native @react-navigation/bottom-tabs react-native-screens react-native-safe-area-context
+npm install @rnmapbox/maps
+npx expo install @expo/vector-icons
+npx expo install @react-native-async-storage/async-storage
+npm install @react-navigation/stack
+npx expo install react-native-gesture-handler
+npm install -g @expo/ngrok
+npx expo install expo-dev-client
+
+
+
+Backend/api
+
+npm init -y
+npm install express cors dotenv
+npm install helmet morgan uuid
+npm install --save-dev nodemon
+npm install @supabase/supabase-js

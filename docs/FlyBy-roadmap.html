@@ -1,0 +1,185 @@
+
+<style>
+  .rd-wrap { padding: 1.5rem 0; font-family: var(--font-sans); }
+  .rd-header { margin-bottom: 2rem; }
+  .rd-title { font-size: 22px; font-weight: 500; color: var(--color-text-primary); margin: 0 0 4px; }
+  .rd-sub { font-size: 14px; color: var(--color-text-secondary); margin: 0; }
+  .phase { border: 1px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); margin-bottom: 1.25rem; overflow: hidden; }
+  .phase-header { display: flex; align-items: center; gap: 14px; padding: 14px 18px; cursor: pointer; user-select: none; background: var(--color-background-secondary); }
+  .phase-header:hover { background: var(--color-background-tertiary); }
+  .phase-badge { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
+  .p1 .phase-badge { background: #EEEDFE; color: #3C3489; }
+  .p2 .phase-badge { background: #E1F5EE; color: #085041; }
+  .p3 .phase-badge { background: #FAEEDA; color: #633806; }
+  .p4 .phase-badge { background: #FAECE7; color: #712B13; }
+  .p5 .phase-badge { background: #E6F1FB; color: #0C447C; }
+  @media (prefers-color-scheme: dark) {
+    .p1 .phase-badge { background: #26215C; color: #CECBF6; }
+    .p2 .phase-badge { background: #04342C; color: #9FE1CB; }
+    .p3 .phase-badge { background: #412402; color: #FAC775; }
+    .p4 .phase-badge { background: #4A1B0C; color: #F5C4B3; }
+    .p5 .phase-badge { background: #042C53; color: #B5D4F4; }
+  }
+  .phase-name { font-size: 15px; font-weight: 500; color: var(--color-text-primary); flex: 1; }
+  .phase-duration { font-size: 12px; color: var(--color-text-tertiary); }
+  .chevron { font-size: 18px; color: var(--color-text-tertiary); transition: transform 0.2s; }
+  .phase.open .chevron { transform: rotate(180deg); }
+  .phase-body { display: none; padding: 0 18px 18px; }
+  .phase.open .phase-body { display: block; }
+  .phase-desc { font-size: 13px; color: var(--color-text-secondary); margin: 12px 0 14px; line-height: 1.6; }
+  .tasks { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  @media (max-width: 520px) { .tasks { grid-template-columns: 1fr; } }
+  .task { display: flex; align-items: flex-start; gap: 8px; background: var(--color-background-primary); border: 1px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 10px 12px; }
+  .task-icon { font-size: 15px; color: var(--color-text-tertiary); margin-top: 1px; flex-shrink: 0; }
+  .task-text { font-size: 13px; color: var(--color-text-primary); line-height: 1.5; }
+  .task-note { font-size: 11px; color: var(--color-text-tertiary); margin-top: 2px; }
+  .stack-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  .stack-pill { font-size: 11px; padding: 3px 9px; border-radius: 20px; border: 1px solid var(--color-border-secondary); color: var(--color-text-secondary); background: var(--color-background-secondary); }
+  .divider { height: 1px; background: var(--color-border-tertiary); margin: 14px 0; }
+</style>
+<div class="rd-wrap">
+  <div class="rd-header">
+    <p class="rd-title">FlyBy — build roadmap</p>
+    <p class="rd-sub">5 phases · solo build · free/cheap stack · tap a phase to expand</p>
+  </div>
+
+  <div class="phase p1 open" id="ph1">
+    <div class="phase-header" onclick="toggle('ph1')">
+      <span class="phase-badge">Phase 1</span>
+      <span class="phase-name">Foundation &amp; auth</span>
+      <span class="phase-duration">~4–6 weeks</span>
+      <span class="chevron">&#8964;</span>
+    </div>
+    <div class="phase-body">
+      <p class="phase-desc">Get the skeleton standing. Auth, accounts, database schema, and a working map on screen. Nothing fancy yet — just the bones everything else builds on.</p>
+      <div class="tasks">
+        <div class="task"><i class="ti ti-device-mobile task-icon" aria-hidden="true"></i><div><div class="task-text">Expo + React Native project setup</div><div class="task-note">iOS &amp; Android from one codebase</div></div></div>
+        <div class="task"><i class="ti ti-user task-icon" aria-hidden="true"></i><div><div class="task-text">Supabase auth — sign up, login, unique usernames</div><div class="task-note">email + OAuth ready</div></div></div>
+        <div class="task"><i class="ti ti-database task-icon" aria-hidden="true"></i><div><div class="task-text">Core DB schema — users, trips, vehicles, friends</div><div class="task-note">Postgres on Supabase</div></div></div>
+        <div class="task"><i class="ti ti-map task-icon" aria-hidden="true"></i><div><div class="task-text">Mapbox map rendering in the app</div><div class="task-note">free tier, 50k loads/mo</div></div></div>
+        <div class="task"><i class="ti ti-server task-icon" aria-hidden="true"></i><div><div class="task-text">Node + Express API scaffold</div><div class="task-note">deployed on Railway free tier</div></div></div>
+        <div class="task"><i class="ti ti-user-circle task-icon" aria-hidden="true"></i><div><div class="task-text">Basic profile screen — username, avatar, garage placeholder</div><div class="task-note"></div></div></div>
+      </div>
+      <div class="divider"></div>
+      <div class="stack-row">
+        <span class="stack-pill">React Native + Expo</span>
+        <span class="stack-pill">Supabase auth</span>
+        <span class="stack-pill">Node + Express</span>
+        <span class="stack-pill">Mapbox GL</span>
+        <span class="stack-pill">Railway (free)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase p2" id="ph2">
+    <div class="phase-header" onclick="toggle('ph2')">
+      <span class="phase-badge">Phase 2</span>
+      <span class="phase-name">Live tracking &amp; fog of war</span>
+      <span class="phase-duration">~6–8 weeks</span>
+      <span class="chevron">&#8964;</span>
+    </div>
+    <div class="phase-body">
+      <p class="phase-desc">The heart of the app. GPS tracking, speed logging, and the fog-of-war map that reveals as you explore. This is the feature that makes it feel like no other app.</p>
+      <div class="tasks">
+        <div class="task"><i class="ti ti-gps task-icon" aria-hidden="true"></i><div><div class="task-text">Background GPS tracking with speed calculation</div><div class="task-note">expo-location background mode</div></div></div>
+        <div class="task"><i class="ti ti-cloud task-icon" aria-hidden="true"></i><div><div class="task-text">Fog-of-war tile system — store visited map tiles per user</div><div class="task-note">H3 hexagonal grid (Uber's open source lib)</div></div></div>
+        <div class="task"><i class="ti ti-eye-off task-icon" aria-hidden="true"></i><div><div class="task-text">Fog overlay rendering on Mapbox — mask unexplored tiles</div><div class="task-note">dark polygon layer punched with visited hexes</div></div></div>
+        <div class="task"><i class="ti ti-building-community task-icon" aria-hidden="true"></i><div><div class="task-text">City exploration % tracker</div><div class="task-note">GeoJSON city boundaries + H3 coverage math</div></div></div>
+        <div class="task"><i class="ti ti-road task-icon" aria-hidden="true"></i><div><div class="task-text">Trip logging — start/end, distance, avg + top speed</div><div class="task-note">saved to Supabase on trip end</div></div></div>
+        <div class="task"><i class="ti ti-ghost task-icon" aria-hidden="true"></i><div><div class="task-text">Ghost mode toggle — pause location sharing</div><div class="task-note"></div></div></div>
+      </div>
+      <div class="divider"></div>
+      <div class="stack-row">
+        <span class="stack-pill">expo-location</span>
+        <span class="stack-pill">H3-js (Uber, free)</span>
+        <span class="stack-pill">Mapbox fill-extrusion layer</span>
+        <span class="stack-pill">Supabase Postgres</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase p3" id="ph3">
+    <div class="phase-header" onclick="toggle('ph3')">
+      <span class="phase-badge">Phase 3</span>
+      <span class="phase-name">Stats, leaderboards &amp; garage</span>
+      <span class="phase-duration">~4–5 weeks</span>
+      <span class="chevron">&#8964;</span>
+    </div>
+    <div class="phase-body">
+      <p class="phase-desc">The competitive layer. Top speed records, weekly resets, global vs friends boards, and the garage where you flex what you drive.</p>
+      <div class="tasks">
+        <div class="task"><i class="ti ti-trophy task-icon" aria-hidden="true"></i><div><div class="task-text">Leaderboards — daily, weekly, monthly, all time top speed</div><div class="task-note">weekly cron job resets the board</div></div></div>
+        <div class="task"><i class="ti ti-users task-icon" aria-hidden="true"></i><div><div class="task-text">Friends system — add by username, friend leaderboard view</div><div class="task-note"></div></div></div>
+        <div class="task"><i class="ti ti-chart-bar task-icon" aria-hidden="true"></i><div><div class="task-text">Personal stats dashboard — all time, averages, total miles</div><div class="task-note"></div></div></div>
+        <div class="task"><i class="ti ti-car task-icon" aria-hidden="true"></i><div><div class="task-text">Garage — add vehicles, specs, fuel type, upgrades</div><div class="task-note">NHTSA API (free) for base specs</div></div></div>
+        <div class="task"><i class="ti ti-clock task-icon" aria-hidden="true"></i><div><div class="task-text">Trip history screen — every run logged with full stats</div><div class="task-note"></div></div></div>
+        <div class="task"><i class="ti ti-speedometer task-icon" aria-hidden="true"></i><div><div class="task-text">mph / km/h toggle, unit preference saved to profile</div><div class="task-note"></div></div></div>
+      </div>
+      <div class="divider"></div>
+      <div class="stack-row">
+        <span class="stack-pill">NHTSA API (free)</span>
+        <span class="stack-pill">Supabase cron</span>
+        <span class="stack-pill">Supabase RLS for friends privacy</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase p4" id="ph4">
+    <div class="phase-header" onclick="toggle('ph4')">
+      <span class="phase-badge">Phase 4</span>
+      <span class="phase-name">Convoy mode</span>
+      <span class="phase-duration">~5–6 weeks</span>
+      <span class="chevron">&#8964;</span>
+    </div>
+    <div class="phase-body">
+      <p class="phase-desc">The social backbone. Real-time crew location sharing, convoy creation, shared destination pins, and live speed readouts for every member in the convoy.</p>
+      <div class="tasks">
+        <div class="task"><i class="ti ti-live-photo task-icon" aria-hidden="true"></i><div><div class="task-text">Real-time crew location on shared map</div><div class="task-note">Supabase Realtime (WebSockets, free)</div></div></div>
+        <div class="task"><i class="ti ti-flag task-icon" aria-hidden="true"></i><div><div class="task-text">Convoy creation — invite friends, set destination pin</div><div class="task-note"></div></div></div>
+        <div class="task"><i class="ti ti-check task-icon" aria-hidden="true"></i><div><div class="task-text">Arrival sync — who's there, who's en route, live ETA</div><div class="task-note"></div></div></div>
+        <div class="task"><i class="ti ti-gauge task-icon" aria-hidden="true"></i><div><div class="task-text">Live convoy panel — each member's current speed + top speed</div><div class="task-note"></div></div></div>
+        <div class="task"><i class="ti ti-ghost-2 task-icon" aria-hidden="true"></i><div><div class="task-text">Per-convoy ghost mode — visible to convoy only</div><div class="task-note"></div></div></div>
+        <div class="task"><i class="ti ti-bell task-icon" aria-hidden="true"></i><div><div class="task-text">Push notifications — convoy invite, friend arrived</div><div class="task-note">Expo Notifications (free)</div></div></div>
+      </div>
+      <div class="divider"></div>
+      <div class="stack-row">
+        <span class="stack-pill">Supabase Realtime</span>
+        <span class="stack-pill">Expo Notifications</span>
+        <span class="stack-pill">Mapbox directions API</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="phase p5" id="ph5">
+    <div class="phase-header" onclick="toggle('ph5')">
+      <span class="phase-badge">Phase 5</span>
+      <span class="phase-name">Map intel &amp; polish</span>
+      <span class="phase-duration">~4–5 weeks</span>
+      <span class="chevron">&#8964;</span>
+    </div>
+    <div class="phase-body">
+      <p class="phase-desc">The finishing touches that make it feel like a real product — overlays, styling, onboarding, and all the details that make people say "this is sick".</p>
+      <div class="tasks">
+        <div class="task"><i class="ti ti-gas-station task-icon" aria-hidden="true"></i><div><div class="task-text">E85 station overlay — toggleable layer on the map</div><div class="task-note">NREL Alternative Fuels API (free)</div></div></div>
+        <div class="task"><i class="ti ti-racing-helmet task-icon" aria-hidden="true"></i><div><div class="task-text">Track &amp; closed course overlay — verified locations DB</div><div class="task-note">community-curated, manually seeded to start</div></div></div>
+        <div class="task"><i class="ti ti-map-pin task-icon" aria-hidden="true"></i><div><div class="task-text">Spots / POI pins — crew-submitted locations</div><div class="task-note"></div></div></div>
+        <div class="task"><i class="ti ti-palette task-icon" aria-hidden="true"></i><div><div class="task-text">Full UI polish pass — dark theme, animations, custom map style</div><div class="task-note">Mapbox Studio custom style (free)</div></div></div>
+        <div class="task"><i class="ti ti-brand-apple task-icon" aria-hidden="true"></i><div><div class="task-text">App Store + Google Play submission prep</div><div class="task-note">Apple $99/yr · Google $25 one-time</div></div></div>
+        <div class="task"><i class="ti ti-heart task-icon" aria-hidden="true"></i><div><div class="task-text">Onboarding flow — permissions, profile setup, first drive tutorial</div><div class="task-note"></div></div></div>
+      </div>
+      <div class="divider"></div>
+      <div class="stack-row">
+        <span class="stack-pill">NREL API (free)</span>
+        <span class="stack-pill">Mapbox Studio (free)</span>
+        <span class="stack-pill">Apple Dev $99/yr</span>
+        <span class="stack-pill">Google Play $25 one-time</span>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+function toggle(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+</script>

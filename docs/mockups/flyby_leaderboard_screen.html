@@ -1,0 +1,270 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.screen-wrap { display: flex; justify-content: center; gap: 32px; padding: 2rem 0; flex-wrap: wrap; align-items: flex-start; }
+.phone { width: 320px; background: #0a0a0f; border-radius: 40px; border: 2px solid #2a2a35; overflow: hidden; position: relative; flex-shrink: 0; }
+.notch { width: 100px; height: 28px; background: #0a0a0f; border-radius: 0 0 18px 18px; margin: 0 auto; position: relative; z-index: 10; }
+.screen { position: relative; width: 100%; height: 680px; overflow: hidden; background: #0d0d14; display: flex; flex-direction: column; }
+.status-bar { display: flex; justify-content: space-between; align-items: center; padding: 8px 20px 4px; flex-shrink: 0; }
+.status-time { font-size: 13px; font-weight: 500; color: #e0e0f0; }
+.status-icons { display: flex; gap: 6px; align-items: center; font-size: 13px; color: #e0e0f0; }
+.top-bar { display: flex; align-items: center; justify-content: space-between; padding: 6px 16px 10px; flex-shrink: 0; }
+.app-name { font-size: 17px; font-weight: 500; color: #fff; letter-spacing: 1px; }
+.reset-badge { background: rgba(29,158,117,0.2); border: 1px solid rgba(29,158,117,0.4); border-radius: 20px; padding: 4px 10px; font-size: 10px; color: #5dcaa5; display: flex; align-items: center; gap: 5px; }
+
+.toggle-row { display: flex; gap: 8px; padding: 0 16px 10px; flex-shrink: 0; }
+.toggle-btn { flex: 1; padding: 7px 0; border-radius: 20px; font-size: 12px; font-weight: 500; text-align: center; border: 1px solid rgba(255,255,255,0.1); color: rgba(224,224,240,0.45); background: transparent; cursor: pointer; }
+.toggle-btn.active { background: #5244cc; color: #fff; border-color: #5244cc; }
+
+.period-row { display: flex; gap: 6px; padding: 0 16px 12px; flex-shrink: 0; overflow-x: auto; }
+.period-btn { padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 500; white-space: nowrap; border: 1px solid rgba(255,255,255,0.08); color: rgba(224,224,240,0.4); background: transparent; cursor: pointer; flex-shrink: 0; }
+.period-btn.active { background: rgba(82,68,204,0.25); color: #a89ff5; border-color: rgba(82,68,204,0.5); }
+
+.podium { display: flex; align-items: flex-end; justify-content: center; gap: 8px; padding: 0 16px 16px; flex-shrink: 0; }
+.pod { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.pod-avatar { border-radius: 50%; border: 2px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-weight: 500; color: #fff; font-size: 13px; }
+.pod-name { font-size: 10px; color: rgba(224,224,240,0.6); }
+.pod-speed { font-size: 12px; font-weight: 500; }
+.pod-block { border-radius: 8px 8px 0 0; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 6px; width: 72px; }
+.pod-rank { font-size: 18px; font-weight: 500; color: rgba(255,255,255,0.3); }
+
+.crown { font-size: 16px; color: #ef9f27; margin-bottom: -4px; }
+
+.list-area { flex: 1; overflow: hidden; padding: 0 12px; display: flex; flex-direction: column; gap: 6px; }
+
+.row { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 10px 12px; }
+.row.me { border-color: rgba(82,68,204,0.5); background: rgba(82,68,204,0.12); }
+.row-rank { font-size: 13px; font-weight: 500; color: rgba(224,224,240,0.3); width: 20px; text-align: center; flex-shrink: 0; }
+.row-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; color: #fff; flex-shrink: 0; }
+.row-info { flex: 1; }
+.row-name { font-size: 13px; font-weight: 500; color: #e0e0f0; }
+.row-sub { font-size: 11px; color: rgba(224,224,240,0.4); margin-top: 1px; }
+.row-speed { text-align: right; }
+.row-speed-val { font-size: 15px; font-weight: 500; color: #ef9f27; }
+.row-speed-lbl { font-size: 10px; color: rgba(224,224,240,0.35); }
+.row-change { font-size: 10px; margin-top: 1px; }
+.up { color: #5dcaa5; }
+.down { color: #f09595; }
+.same { color: rgba(224,224,240,0.3); }
+.me-badge { font-size: 10px; background: rgba(82,68,204,0.4); color: #a89ff5; border-radius: 4px; padding: 1px 5px; margin-left: 4px; }
+
+.bottom-nav { display: flex; background: rgba(10,10,20,0.97); border-top: 1px solid rgba(255,255,255,0.07); padding: 10px 8px 24px; flex-shrink: 0; }
+.nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 4px; }
+.nav-icon { font-size: 20px; color: rgba(224,224,240,0.35); }
+.nav-icon.active { color: #a89ff5; }
+.nav-lbl { font-size: 10px; color: rgba(224,224,240,0.35); }
+.nav-lbl.active { color: #a89ff5; }
+.screen-label { font-size: 11px; color: var(--color-text-tertiary); text-align: center; margin-top: 8px; letter-spacing: 0.5px; }
+
+.panel-wrap { display: flex; flex-direction: column; gap: 16px; width: 260px; padding-top: 2rem; }
+.callout-card { background: var(--color-background-secondary); border: 1px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px 16px; }
+.panel-title { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 10px; letter-spacing: 0.3px; }
+.callout-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.callout-row:last-child { margin-bottom: 0; }
+.callout-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+.ci-purple { background: #EEEDFE; color: #534AB7; }
+.ci-amber  { background: #FAEEDA; color: #854F0B; }
+.ci-teal   { background: #E1F5EE; color: #0F6E56; }
+.ci-coral  { background: #FAECE7; color: #993C1D; }
+@media (prefers-color-scheme: dark) {
+  .ci-purple { background: #26215C; color: #AFA9EC; }
+  .ci-amber  { background: #412402; color: #EF9F27; }
+  .ci-teal   { background: #04342C; color: #5DCAA5; }
+  .ci-coral  { background: #4A1B0C; color: #F0997B; }
+}
+.callout-text { font-size: 13px; color: var(--color-text-primary); font-weight: 500; }
+.callout-sub  { font-size: 12px; color: var(--color-text-secondary); margin-top: 1px; }
+</style>
+
+<div class="screen-wrap">
+  <div style="display:flex;flex-direction:column;align-items:center;">
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="screen">
+
+        <div class="status-bar">
+          <span class="status-time">9:41</span>
+          <div class="status-icons">
+            <i class="ti ti-wifi" style="font-size:13px;" aria-hidden="true"></i>
+            <i class="ti ti-battery-3" style="font-size:13px;" aria-hidden="true"></i>
+          </div>
+        </div>
+
+        <div class="top-bar">
+          <span class="app-name">flyby</span>
+          <div class="reset-badge"><i class="ti ti-clock" style="font-size:11px;" aria-hidden="true"></i>resets in 3d 14h</div>
+        </div>
+
+        <div class="toggle-row">
+          <div class="toggle-btn active">global</div>
+          <div class="toggle-btn">friends</div>
+          <div class="toggle-btn">top speed</div>
+          <div class="toggle-btn">avg speed</div>
+        </div>
+
+        <div class="period-row">
+          <div class="period-btn">daily</div>
+          <div class="period-btn active">weekly</div>
+          <div class="period-btn">monthly</div>
+          <div class="period-btn">yearly</div>
+          <div class="period-btn">all time</div>
+        </div>
+
+        <div class="podium">
+          <div class="pod">
+            <div class="pod-avatar" style="width:40px;height:40px;background:linear-gradient(135deg,#5244cc,#7f77dd);">SL</div>
+            <div class="pod-name">sl_rsx</div>
+            <div class="pod-speed" style="color:#b4b2a9;">134 <span style="font-size:9px;color:rgba(180,178,169,0.6);">mph</span></div>
+            <div class="pod-block" style="height:52px;background:rgba(82,68,204,0.25);border:1px solid rgba(82,68,204,0.3);">
+              <span class="pod-rank">2</span>
+            </div>
+          </div>
+          <div class="pod">
+            <div class="crown"><i class="ti ti-crown" aria-hidden="true"></i></div>
+            <div class="pod-avatar" style="width:48px;height:48px;background:linear-gradient(135deg,#854F0B,#ef9f27);border-color:#ef9f27;">RX</div>
+            <div class="pod-name">rx7_ghost</div>
+            <div class="pod-speed" style="color:#ef9f27;">147 <span style="font-size:9px;color:rgba(239,159,39,0.6);">mph</span></div>
+            <div class="pod-block" style="height:68px;background:rgba(186,117,23,0.2);border:1px solid rgba(186,117,23,0.4);">
+              <span class="pod-rank" style="color:#ef9f27;opacity:0.6;">1</span>
+            </div>
+          </div>
+          <div class="pod">
+            <div class="pod-avatar" style="width:36px;height:36px;background:linear-gradient(135deg,#0F6E56,#1d9e75);">MK</div>
+            <div class="pod-name">mk5gtr</div>
+            <div class="pod-speed" style="color:#888780;">128 <span style="font-size:9px;color:rgba(136,135,128,0.6);">mph</span></div>
+            <div class="pod-block" style="height:40px;background:rgba(29,158,117,0.15);border:1px solid rgba(29,158,117,0.25);">
+              <span class="pod-rank">3</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="list-area">
+          <div class="row">
+            <div class="row-rank">4</div>
+            <div class="row-avatar" style="background:linear-gradient(135deg,#993C1D,#d85a30);">CR</div>
+            <div class="row-info">
+              <div class="row-name">cr_s2000</div>
+              <div class="row-sub">Honda S2000 · 240hp</div>
+            </div>
+            <div class="row-speed">
+              <div class="row-speed-val">121</div>
+              <div class="row-speed-lbl">mph</div>
+              <div class="row-change up"><i class="ti ti-arrow-up" style="font-size:9px;" aria-hidden="true"></i> +2</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="row-rank">5</div>
+            <div class="row-avatar" style="background:linear-gradient(135deg,#3C3489,#7f77dd);">VQ</div>
+            <div class="row-info">
+              <div class="row-name">vq_35hr</div>
+              <div class="row-sub">Nissan 370Z · 332hp</div>
+            </div>
+            <div class="row-speed">
+              <div class="row-speed-val">118</div>
+              <div class="row-speed-lbl">mph</div>
+              <div class="row-change down"><i class="ti ti-arrow-down" style="font-size:9px;" aria-hidden="true"></i> -1</div>
+            </div>
+          </div>
+
+          <div class="row me">
+            <div class="row-rank">6</div>
+            <div class="row-avatar" style="background:linear-gradient(135deg,#5244cc,#9f3fbf);">JR</div>
+            <div class="row-info">
+              <div class="row-name">j_regal <span class="me-badge">you</span></div>
+              <div class="row-sub">Civic Type R · 316hp</div>
+            </div>
+            <div class="row-speed">
+              <div class="row-speed-val">87</div>
+              <div class="row-speed-lbl">mph</div>
+              <div class="row-change up"><i class="ti ti-arrow-up" style="font-size:9px;" aria-hidden="true"></i> +4</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="row-rank">7</div>
+            <div class="row-avatar" style="background:linear-gradient(135deg,#085041,#1d9e75);">K9</div>
+            <div class="row-info">
+              <div class="row-name">k9_wrx</div>
+              <div class="row-sub">Subaru WRX · 271hp</div>
+            </div>
+            <div class="row-speed">
+              <div class="row-speed-val">84</div>
+              <div class="row-speed-lbl">mph</div>
+              <div class="row-change same">— 0</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bottom-nav">
+          <div class="nav-item"><i class="ti ti-map nav-icon" aria-hidden="true"></i><span class="nav-lbl">map</span></div>
+          <div class="nav-item"><i class="ti ti-trophy nav-icon active" aria-hidden="true"></i><span class="nav-lbl active">boards</span></div>
+          <div class="nav-item"><i class="ti ti-users nav-icon" aria-hidden="true"></i><span class="nav-lbl">crew</span></div>
+          <div class="nav-item"><i class="ti ti-car nav-icon" aria-hidden="true"></i><span class="nav-lbl">garage</span></div>
+          <div class="nav-item"><i class="ti ti-user nav-icon" aria-hidden="true"></i><span class="nav-lbl">profile</span></div>
+        </div>
+
+      </div>
+    </div>
+    <p class="screen-label">leaderboard · weekly · global</p>
+  </div>
+
+  <div class="panel-wrap">
+    <div class="callout-card">
+      <p class="panel-title">design decisions</p>
+      <div class="callout-row">
+        <div class="callout-icon ci-amber"><i class="ti ti-crown" aria-hidden="true"></i></div>
+        <div>
+          <div class="callout-text">Podium for top 3</div>
+          <div class="callout-sub">Visual height shows rank order</div>
+        </div>
+      </div>
+      <div class="callout-row">
+        <div class="callout-icon ci-purple"><i class="ti ti-users" aria-hidden="true"></i></div>
+        <div>
+          <div class="callout-text">Global / friends toggle</div>
+          <div class="callout-sub">Plus top speed vs avg speed</div>
+        </div>
+      </div>
+      <div class="callout-row">
+        <div class="callout-icon ci-teal"><i class="ti ti-clock" aria-hidden="true"></i></div>
+        <div>
+          <div class="callout-text">Weekly reset countdown</div>
+          <div class="callout-sub">Creates urgency every week</div>
+        </div>
+      </div>
+      <div class="callout-row">
+        <div class="callout-icon ci-coral"><i class="ti ti-user" aria-hidden="true"></i></div>
+        <div>
+          <div class="callout-text">You are highlighted</div>
+          <div class="callout-sub">Purple row so you find yourself instantly</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout-card">
+      <p class="panel-title">next screens</p>
+      <div class="callout-row">
+        <div class="callout-icon ci-coral"><i class="ti ti-steering-wheel" aria-hidden="true"></i></div>
+        <div>
+          <div class="callout-text">Convoy / crew</div>
+          <div class="callout-sub">Live positions, destination pin</div>
+        </div>
+      </div>
+      <div class="callout-row">
+        <div class="callout-icon ci-purple"><i class="ti ti-car" aria-hidden="true"></i></div>
+        <div>
+          <div class="callout-text">Garage</div>
+          <div class="callout-sub">Vehicles, specs, upgrades</div>
+        </div>
+      </div>
+      <div class="callout-row">
+        <div class="callout-icon ci-teal"><i class="ti ti-user-circle" aria-hidden="true"></i></div>
+        <div>
+          <div class="callout-text">Profile</div>
+          <div class="callout-sub">Stats, trips, exploration %</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

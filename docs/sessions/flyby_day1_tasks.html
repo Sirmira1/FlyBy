@@ -1,0 +1,252 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+.wrap { padding: 1.5rem 0; max-width: 680px; margin: 0 auto; }
+.session-header { margin-bottom: 1.5rem; }
+.session-title { font-size: 20px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+.session-sub { font-size: 13px; color: var(--color-text-secondary); }
+
+.task-group { margin-bottom: 1.5rem; }
+.group-label { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); letter-spacing: 0.8px; margin-bottom: 8px; padding-left: 2px; }
+
+.task-card { background: var(--color-background-secondary); border: 1px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px 16px; margin-bottom: 8px; display: flex; gap: 12px; align-items: flex-start; cursor: pointer; transition: border-color 0.15s; }
+.task-card:hover { border-color: var(--color-border-secondary); }
+.task-card.done { opacity: 0.5; }
+.task-card.done .task-title { text-decoration: line-through; }
+
+.check { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--color-border-secondary); flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; font-size: 11px; transition: all 0.15s; }
+.task-card.done .check { background: #1d9e75; border-color: #1d9e75; color: #fff; }
+
+.task-body { flex: 1; }
+.task-header { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
+.task-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); }
+.task-badge { font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 500; white-space: nowrap; }
+.b-db     { background: #EEEDFE; color: #534AB7; }
+.b-be     { background: #FAEEDA; color: #854F0B; }
+.b-fe     { background: #E1F5EE; color: #0F6E56; }
+.b-config { background: #FAECE7; color: #993C1D; }
+@media (prefers-color-scheme: dark) {
+  .b-db     { background: #26215C; color: #AFA9EC; }
+  .b-be     { background: #412402; color: #EF9F27; }
+  .b-fe     { background: #04342C; color: #5DCAA5; }
+  .b-config { background: #4A1B0C; color: #F0997B; }
+}
+.task-est { font-size: 11px; color: var(--color-text-tertiary); margin-left: auto; white-space: nowrap; }
+.task-desc { font-size: 12px; color: var(--color-text-secondary); line-height: 1.6; }
+.task-steps { margin-top: 6px; display: flex; flex-direction: column; gap: 3px; }
+.task-step { font-size: 12px; color: var(--color-text-secondary); display: flex; gap: 6px; }
+.step-num { color: var(--color-text-tertiary); flex-shrink: 0; }
+
+.progress-bar-wrap { margin-bottom: 1.5rem; }
+.progress-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--color-text-secondary); margin-bottom: 6px; }
+.progress-track { height: 6px; background: var(--color-background-tertiary); border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; background: #1d9e75; border-radius: 3px; transition: width 0.3s; }
+
+.summary-card { background: var(--color-background-secondary); border: 1px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px 16px; display: flex; gap: 16px; flex-wrap: wrap; }
+.summary-stat { text-align: center; flex: 1; min-width: 80px; }
+.ss-val { font-size: 20px; font-weight: 500; color: var(--color-text-primary); }
+.ss-lbl { font-size: 11px; color: var(--color-text-tertiary); margin-top: 2px; }
+</style>
+
+<div class="wrap">
+  <div class="session-header">
+    <div class="session-title">FlyBy — Day 1 session</div>
+    <div class="session-sub">Phase 1 foundation · tap tasks to check them off</div>
+  </div>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-label">
+      <span id="progress-label">0 of 8 done</span>
+      <span id="progress-pct">0%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <div class="task-group">
+    <div class="group-label">SUPABASE — DATABASE</div>
+
+    <div class="task-card" id="t1" onclick="toggle('t1')">
+      <div class="check" id="c1"></div>
+      <div class="task-body">
+        <div class="task-header">
+          <span class="task-title">Create the users table</span>
+          <span class="task-badge b-db">database</span>
+          <span class="task-est">~20 min</span>
+        </div>
+        <div class="task-desc">Go to Supabase → SQL Editor and run this. This is your core user record — everything links back to this table.</div>
+        <div class="task-steps">
+          <div class="task-step"><span class="step-num">1.</span>Open your Supabase project → SQL Editor</div>
+          <div class="task-step"><span class="step-num">2.</span>Run the users table SQL (ask me and I'll give it to you ready to paste)</div>
+          <div class="task-step"><span class="step-num">3.</span>Enable Row Level Security on the table</div>
+          <div class="task-step"><span class="step-num">4.</span>Verify the table shows up in Table Editor</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="task-card" id="t2" onclick="toggle('t2')">
+      <div class="check" id="c2"></div>
+      <div class="task-body">
+        <div class="task-header">
+          <span class="task-title">Create vehicles, trips and friends tables</span>
+          <span class="task-badge b-db">database</span>
+          <span class="task-est">~20 min</span>
+        </div>
+        <div class="task-desc">The three other core tables for Phase 1. Vehicles stores garage entries, trips logs every drive, friends handles the social graph.</div>
+        <div class="task-steps">
+          <div class="task-step"><span class="step-num">1.</span>Run vehicles table SQL in Supabase editor</div>
+          <div class="task-step"><span class="step-num">2.</span>Run trips table SQL</div>
+          <div class="task-step"><span class="step-num">3.</span>Run friends table SQL</div>
+          <div class="task-step"><span class="step-num">4.</span>Confirm all 4 tables are visible in Table Editor</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="task-card" id="t3" onclick="toggle('t3')">
+      <div class="check" id="c3"></div>
+      <div class="task-body">
+        <div class="task-header">
+          <span class="task-title">Wire Supabase into the backend</span>
+          <span class="task-badge b-be">backend</span>
+          <span class="task-est">~15 min</span>
+        </div>
+        <div class="task-desc">Install the Supabase JS client in your API and create a shared db.js file so every route can query the database.</div>
+        <div class="task-steps">
+          <div class="task-step"><span class="step-num">1.</span>npm install @supabase/supabase-js in backend/api</div>
+          <div class="task-step"><span class="step-num">2.</span>Create lib/db.js that initializes and exports the Supabase client</div>
+          <div class="task-step"><span class="step-num">3.</span>Test it with a quick query in the health route</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="task-group">
+    <div class="group-label">BACKEND — AUTH ROUTES</div>
+
+    <div class="task-card" id="t4" onclick="toggle('t4')">
+      <div class="check" id="c4"></div>
+      <div class="task-body">
+        <div class="task-header">
+          <span class="task-title">Build the register route</span>
+          <span class="task-badge b-be">backend</span>
+          <span class="task-est">~25 min</span>
+        </div>
+        <div class="task-desc">POST /api/auth/register — takes email, password, username. Creates the Supabase auth user and inserts a row into your users table. Validates that the username is unique.</div>
+        <div class="task-steps">
+          <div class="task-step"><span class="step-num">1.</span>Fill out routes/auth.js register endpoint</div>
+          <div class="task-step"><span class="step-num">2.</span>Check username uniqueness before creating account</div>
+          <div class="task-step"><span class="step-num">3.</span>Test with Postman or curl — create a test account</div>
+          <div class="task-step"><span class="step-num">4.</span>Verify the user appears in Supabase → Authentication</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="task-card" id="t5" onclick="toggle('t5')">
+      <div class="check" id="c5"></div>
+      <div class="task-body">
+        <div class="task-header">
+          <span class="task-title">Build the login route</span>
+          <span class="task-badge b-be">backend</span>
+          <span class="task-est">~15 min</span>
+        </div>
+        <div class="task-desc">POST /api/auth/login — takes email and password, returns a session token. This token is what the mobile app will store and send with every request.</div>
+        <div class="task-steps">
+          <div class="task-step"><span class="step-num">1.</span>Fill out routes/auth.js login endpoint</div>
+          <div class="task-step"><span class="step-num">2.</span>Return the session access_token and user object</div>
+          <div class="task-step"><span class="step-num">3.</span>Test login with the account you created above</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="task-group">
+    <div class="group-label">FRONTEND — MOBILE</div>
+
+    <div class="task-card" id="t6" onclick="toggle('t6')">
+      <div class="check" id="c6"></div>
+      <div class="task-body">
+        <div class="task-header">
+          <span class="task-title">Set up navigation skeleton</span>
+          <span class="task-badge b-fe">frontend</span>
+          <span class="task-est">~30 min</span>
+        </div>
+        <div class="task-desc">Install React Navigation and create the bottom tab navigator with all 5 screens stubbed out. This gives you the full app shell to build into.</div>
+        <div class="task-steps">
+          <div class="task-step"><span class="step-num">1.</span>npm install @react-navigation/native @react-navigation/bottom-tabs</div>
+          <div class="task-step"><span class="step-num">2.</span>npm install react-native-screens react-native-safe-area-context</div>
+          <div class="task-step"><span class="step-num">3.</span>Create src/screens/ stubs: MapScreen, LeaderboardScreen, CrewScreen, GarageScreen, ProfileScreen</div>
+          <div class="task-step"><span class="step-num">4.</span>Create src/navigation/TabNavigator.js with all 5 tabs</div>
+          <div class="task-step"><span class="step-num">5.</span>Update App.js to render the navigator — confirm all tabs work</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="task-card" id="t7" onclick="toggle('t7')">
+      <div class="check" id="c7"></div>
+      <div class="task-body">
+        <div class="task-header">
+          <span class="task-title">Style the tab bar to match the design</span>
+          <span class="task-badge b-fe">frontend</span>
+          <span class="task-est">~20 min</span>
+        </div>
+        <div class="task-desc">Make the bottom nav look like the mockup — dark background, purple active color, icon + label. Use your theme.js constants so it's consistent from day one.</div>
+        <div class="task-steps">
+          <div class="task-step"><span class="step-num">1.</span>Install @expo/vector-icons for the tab icons</div>
+          <div class="task-step"><span class="step-num">2.</span>Set tabBarStyle using COLORS from theme.js</div>
+          <div class="task-step"><span class="step-num">3.</span>Match active color to COLORS.purpleLight</div>
+          <div class="task-step"><span class="step-num">4.</span>Run on your phone with Expo Go and see it live</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="task-card" id="t8" onclick="toggle('t8')">
+      <div class="check" id="c8"></div>
+      <div class="task-body">
+        <div class="task-header">
+          <span class="task-title">Get Mapbox rendering on the map screen</span>
+          <span class="task-badge b-fe">frontend</span>
+          <span class="task-est">~30 min</span>
+        </div>
+        <div class="task-desc">This is the big one for today — getting an actual dark map on screen inside the app. Once this works, the app already feels like FlyBy.</div>
+        <div class="task-steps">
+          <div class="task-step"><span class="step-num">1.</span>npm install @rnmapbox/maps in frontend/mobile</div>
+          <div class="task-step"><span class="step-num">2.</span>Add your Mapbox token to app.json</div>
+          <div class="task-step"><span class="step-num">3.</span>Render a MapboxGL.MapView inside MapScreen.js</div>
+          <div class="task-step"><span class="step-num">4.</span>Set the map style to dark — mapbox://styles/mapbox/dark-v11</div>
+          <div class="task-step"><span class="step-num">5.</span>Run on Expo Go — if you see a dark map you're done for today</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-card">
+    <div class="summary-stat"><div class="ss-val">~3h</div><div class="ss-lbl">estimated total</div></div>
+    <div class="summary-stat"><div class="ss-val">8</div><div class="ss-lbl">tasks</div></div>
+    <div class="summary-stat"><div class="ss-val" style="color:#1d9e75;">✓</div><div class="ss-lbl">end state: dark map on screen</div></div>
+  </div>
+</div>
+
+<script>
+let done = new Set();
+const total = 8;
+function toggle(id) {
+  const card = document.getElementById(id);
+  const check = document.getElementById(id.replace('t','c'));
+  if (done.has(id)) {
+    done.delete(id);
+    card.classList.remove('done');
+    check.innerHTML = '';
+  } else {
+    done.add(id);
+    card.classList.add('done');
+    check.innerHTML = '✓';
+  }
+  const count = done.size;
+  const pct = Math.round((count / total) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = count + ' of ' + total + ' done';
+  document.getElementById('progress-pct').textContent = pct + '%';
+}
+</script>

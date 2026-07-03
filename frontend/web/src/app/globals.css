@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+/*
+  FlyBy web theme — mirrors the React Native palette in
+  frontend/mobile/src/constants/theme.ts so web + mobile stay visually in sync.
+  Each --color-* token becomes a Tailwind utility (bg-surface, text-ink, ...).
+*/
+@theme {
+  --color-surface: #0a0a0f;
+  --color-surface-2: #0d0d14;
+  --color-card: rgba(255, 255, 255, 0.04);
+  --color-edge: rgba(255, 255, 255, 0.08);
+
+  --color-brand: #5244cc;
+  --color-brand-soft: #a89ff5;
+
+  --color-amber: #ef9f27;
+  --color-teal: #1d9e75;
+  --color-teal-soft: #5dcaa5;
+  --color-coral: #e85d24;
+
+  --color-ink: #e0e0f0;
+  --color-ink-soft: rgba(224, 224, 240, 0.6);
+  --color-ink-mute: rgba(224, 224, 240, 0.35);
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+}
+
+/* Pulsing ring used by the user-location dot and live crew pins. */
+@keyframes flyby-ping {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+  100% { transform: translate(-50%, -50%) scale(2.4); opacity: 0; }
+}
+.flyby-ping { animation: flyby-ping 2s ease-out infinite; }
+
+/* Soft opacity pulse for "live" indicators. */
+@keyframes flyby-pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.flyby-pulse-soft { animation: flyby-pulse-soft 2s ease-in-out infinite; }
+
+/* Mapbox tweaks to suit the dark theme. */
+.mapboxgl-ctrl-logo { opacity: 0.5; }
+.mapboxgl-ctrl-attrib { font-size: 10px; }
+.mapboxgl-popup-content { background: var(--color-surface-2); color: var(--color-ink); }

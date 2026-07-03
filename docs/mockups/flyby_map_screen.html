@@ -1,0 +1,136 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.screen-wrap { display: flex; justify-content: center; gap: 32px; padding: 2rem 0; flex-wrap: wrap; align-items: flex-start; }
+.phone { width: 320px; background: #0a0a0f; border-radius: 40px; border: 2px solid #2a2a35; overflow: hidden; position: relative; flex-shrink: 0; }
+.notch { width: 100px; height: 28px; background: #0a0a0f; border-radius: 0 0 18px 18px; margin: 0 auto; position: relative; z-index: 10; }
+.screen { position: relative; width: 100%; height: 680px; overflow: hidden; background: #111118; }
+.map-bg { position: absolute; inset: 0; background: #111118; }
+.map-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 32px 32px; }
+.map-road { position: absolute; background: #1e1e2e; border-radius: 3px; }
+.fog { position: absolute; background: rgba(8,8,16,0.82); border-radius: 2px; }
+.explored { position: absolute; background: #181824; border-radius: 2px; }
+.road-label { position: absolute; font-size: 10px; color: #444458; letter-spacing: 0.5px; white-space: nowrap; }
+.status-bar { position: absolute; top: 0; left: 0; right: 0; display: flex; justify-content: space-between; align-items: center; padding: 8px 20px 6px; z-index: 20; }
+.status-time { font-size: 13px; font-weight: 500; color: #e0e0f0; }
+.status-icons { display: flex; gap: 6px; align-items: center; font-size: 13px; color: #e0e0f0; }
+.top-bar { position: absolute; top: 32px; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; z-index: 20; }
+.app-name { font-size: 17px; font-weight: 500; color: #ffffff; letter-spacing: 1px; }
+.live-badge { background: rgba(99,82,220,0.25); border: 1px solid rgba(99,82,220,0.5); border-radius: 20px; padding: 4px 12px; font-size: 11px; color: #a89ff5; display: flex; align-items: center; gap: 5px; }
+.live-dot { width: 6px; height: 6px; border-radius: 50%; background: #a89ff5; animation: pdot 2s ease-in-out infinite; }
+@keyframes pdot { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.avatar-btn { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #5244cc, #9f3fbf); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; color: #fff; border: 2px solid rgba(255,255,255,0.15); }
+.speed-hud { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 15; }
+.speed-num { font-size: 64px; font-weight: 500; color: #ffffff; line-height: 1; letter-spacing: -2px; }
+.speed-unit { font-size: 13px; color: rgba(255,255,255,0.45); letter-spacing: 2px; margin-top: 2px; }
+.speed-ring { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 160px; height: 160px; border-radius: 50%; border: 1px solid rgba(99,82,220,0.2); z-index: 14; }
+.user-dot { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 14px; height: 14px; border-radius: 50%; background: #7f77dd; border: 2px solid #fff; z-index: 20; }
+.pulse-ring { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid rgba(127,119,221,0.4); animation: pring 2s ease-out infinite; z-index: 19; }
+@keyframes pring { 0%{transform:translate(-50%,-50%) scale(1);opacity:0.7} 100%{transform:translate(-50%,-50%) scale(2.4);opacity:0} }
+.crew-dot { position: absolute; width: 12px; height: 12px; border-radius: 50%; border: 2px solid #0a0a0f; z-index: 18; }
+.crew-label { position: absolute; background: rgba(10,10,20,0.85); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 3px 7px; font-size: 10px; color: #e0e0f0; white-space: nowrap; z-index: 18; }
+.crew-speed { font-size: 10px; color: rgba(224,224,240,0.5); }
+.stats-strip { position: absolute; bottom: 130px; left: 12px; right: 12px; background: rgba(10,10,20,0.9); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; display: flex; padding: 10px 4px; z-index: 20; }
+.stat-item { flex: 1; text-align: center; border-right: 1px solid rgba(255,255,255,0.07); }
+.stat-item:last-child { border-right: none; }
+.stat-val { font-size: 16px; font-weight: 500; color: #e8e8f8; line-height: 1.2; }
+.stat-val.accent { color: #a89ff5; }
+.stat-lbl { font-size: 10px; color: rgba(224,224,240,0.4); margin-top: 2px; letter-spacing: 0.3px; }
+.bottom-nav { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(10,10,20,0.97); border-top: 1px solid rgba(255,255,255,0.07); display: flex; padding: 10px 8px 24px; z-index: 25; }
+.nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 4px; border-radius: 10px; }
+.nav-icon { font-size: 20px; color: rgba(224,224,240,0.35); }
+.nav-icon.active { color: #a89ff5; }
+.nav-lbl { font-size: 10px; color: rgba(224,224,240,0.35); }
+.nav-lbl.active { color: #a89ff5; }
+.map-fab { position: absolute; bottom: 128px; right: 16px; display: flex; flex-direction: column; gap: 8px; z-index: 22; }
+.fab-btn { width: 40px; height: 40px; border-radius: 12px; background: rgba(10,10,20,0.9); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 17px; color: rgba(224,224,240,0.7); }
+.record-btn { position: absolute; bottom: 195px; left: 50%; transform: translateX(-50%); background: #5244cc; border-radius: 28px; padding: 11px 28px; font-size: 13px; font-weight: 500; color: #fff; z-index: 22; letter-spacing: 0.3px; display: flex; align-items: center; gap: 7px; border: 1px solid rgba(255,255,255,0.15); }
+.rec-dot { width: 8px; height: 8px; border-radius: 50%; background: #fff; animation: pdot 1.2s ease-in-out infinite; }
+.top-speed-banner { position: absolute; top: 86px; right: 14px; background: rgba(10,10,20,0.9); border: 1px solid rgba(186,117,23,0.4); border-radius: 10px; padding: 7px 11px; z-index: 20; }
+.tsb-label { font-size: 10px; color: #ba7517; letter-spacing: 0.5px; }
+.tsb-val { font-size: 16px; font-weight: 500; color: #ef9f27; line-height: 1.3; }
+.tsb-unit { font-size: 10px; color: rgba(239,159,39,0.6); }
+.explore-bar { position: absolute; top: 86px; left: 14px; background: rgba(10,10,20,0.9); border: 1px solid rgba(29,158,117,0.35); border-radius: 10px; padding: 7px 11px; z-index: 20; min-width: 110px; }
+.exb-label { font-size: 10px; color: #1d9e75; letter-spacing: 0.5px; margin-bottom: 4px; }
+.exb-track { width: 100%; height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; margin-bottom: 3px; }
+.exb-fill { height: 100%; width: 34%; background: #1d9e75; border-radius: 2px; }
+.exb-pct { font-size: 11px; color: #5dcaa5; font-weight: 500; }
+.screen-label { font-size: 11px; color: var(--color-text-tertiary); text-align: center; margin-top: 8px; letter-spacing: 0.5px; }
+</style>
+<div class="screen-wrap">
+  <div style="display:flex;flex-direction:column;align-items:center;">
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="screen">
+        <div class="map-bg"></div>
+        <div class="map-grid"></div>
+        <div class="explored" style="left:0;top:200px;width:220px;height:280px;border-radius:0;"></div>
+        <div class="explored" style="left:60px;top:100px;width:140px;height:120px;border-radius:0;"></div>
+        <div class="explored" style="left:60px;top:460px;width:180px;height:120px;border-radius:0;"></div>
+        <div class="map-road" style="left:0;top:300px;width:100%;height:8px;"></div>
+        <div class="map-road" style="left:0;top:380px;width:240px;height:6px;"></div>
+        <div class="map-road" style="left:120px;top:0;width:6px;height:380px;"></div>
+        <div class="map-road" style="left:200px;top:200px;width:6px;height:300px;"></div>
+        <div class="map-road" style="left:0;top:460px;width:260px;height:5px;"></div>
+        <div class="road-label" style="top:286px;left:20px;">main st</div>
+        <div class="road-label" style="top:108px;left:126px;">oak ave</div>
+        <div class="fog" style="right:0;top:0;width:110px;height:680px;"></div>
+        <div class="fog" style="left:0;top:0;width:320px;height:100px;"></div>
+        <div class="fog" style="left:0;top:580px;width:60px;height:100px;"></div>
+        <div class="fog" style="left:240px;top:100px;width:80px;height:200px;"></div>
+        <div class="fog" style="left:200px;top:500px;width:60px;height:180px;"></div>
+        <div class="status-bar">
+          <span class="status-time">9:41</span>
+          <div class="status-icons">
+            <i class="ti ti-wifi" style="font-size:13px;" aria-hidden="true"></i>
+            <i class="ti ti-battery-3" style="font-size:13px;" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="top-bar">
+          <span class="app-name">flyby</span>
+          <div class="live-badge"><div class="live-dot"></div>live</div>
+          <div class="avatar-btn">JR</div>
+        </div>
+        <div class="explore-bar">
+          <div class="exb-label">MONTRÉAL</div>
+          <div class="exb-track"><div class="exb-fill"></div></div>
+          <span class="exb-pct">34% explored</span>
+        </div>
+        <div class="top-speed-banner">
+          <div class="tsb-label">TOP SPEED</div>
+          <div class="tsb-val">87 <span class="tsb-unit">mph</span></div>
+        </div>
+        <div class="speed-ring"></div>
+        <div class="speed-hud">
+          <div class="speed-num">62</div>
+          <div class="speed-unit">MPH</div>
+        </div>
+        <div class="pulse-ring"></div>
+        <div class="user-dot"></div>
+        <div class="crew-dot" style="background:#e85d24;top:38%;left:28%;"></div>
+        <div class="crew-label" style="top:36%;left:32%;"><span>MX</span> <span class="crew-speed">· 58 mph</span></div>
+        <div class="crew-dot" style="background:#1d9e75;top:60%;left:42%;"></div>
+        <div class="crew-label" style="top:58%;left:46%;"><span>K9</span> <span class="crew-speed">· 61 mph</span></div>
+        <div class="map-fab">
+          <div class="fab-btn"><i class="ti ti-layers-intersect" aria-hidden="true"></i></div>
+          <div class="fab-btn"><i class="ti ti-crosshair" aria-hidden="true"></i></div>
+        </div>
+        <div class="record-btn"><div class="rec-dot"></div>recording trip</div>
+        <div class="stats-strip">
+          <div class="stat-item"><div class="stat-val">12.4</div><div class="stat-lbl">miles</div></div>
+          <div class="stat-item"><div class="stat-val accent">87</div><div class="stat-lbl">top mph</div></div>
+          <div class="stat-item"><div class="stat-val">48</div><div class="stat-lbl">avg mph</div></div>
+          <div class="stat-item"><div class="stat-val">18:42</div><div class="stat-lbl">duration</div></div>
+        </div>
+        <div class="bottom-nav">
+          <div class="nav-item"><i class="ti ti-map nav-icon active" aria-hidden="true"></i><span class="nav-lbl active">map</span></div>
+          <div class="nav-item"><i class="ti ti-trophy nav-icon" aria-hidden="true"></i><span class="nav-lbl">boards</span></div>
+          <div class="nav-item"><i class="ti ti-users nav-icon" aria-hidden="true"></i><span class="nav-lbl">crew</span></div>
+          <div class="nav-item"><i class="ti ti-car nav-icon" aria-hidden="true"></i><span class="nav-lbl">garage</span></div>
+          <div class="nav-item"><i class="ti ti-user nav-icon" aria-hidden="true"></i><span class="nav-lbl">profile</span></div>
+        </div>
+      </div>
+    </div>
+    <p class="screen-label">map · live trip</p>
+  </div>
+</div>

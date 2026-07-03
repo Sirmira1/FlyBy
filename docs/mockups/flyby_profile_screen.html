@@ -1,0 +1,262 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.screen-wrap { display: flex; justify-content: center; gap: 32px; padding: 2rem 0; flex-wrap: wrap; align-items: flex-start; }
+.phone { width: 320px; background: #0a0a0f; border-radius: 40px; border: 2px solid #2a2a35; overflow: hidden; position: relative; flex-shrink: 0; }
+.notch { width: 100px; height: 28px; background: #0a0a0f; border-radius: 0 0 18px 18px; margin: 0 auto; position: relative; z-index: 10; }
+.screen { position: relative; width: 100%; height: 680px; overflow-y: auto; overflow-x: hidden; background: #0d0d14; display: flex; flex-direction: column; }
+.screen::-webkit-scrollbar { display: none; }
+.status-bar { display: flex; justify-content: space-between; align-items: center; padding: 8px 20px 4px; flex-shrink: 0; }
+.status-time { font-size: 13px; font-weight: 500; color: #e0e0f0; }
+.status-icons { display: flex; gap: 6px; align-items: center; font-size: 13px; color: #e0e0f0; }
+.top-bar { display: flex; align-items: center; justify-content: space-between; padding: 4px 16px 10px; flex-shrink: 0; }
+.app-name { font-size: 17px; font-weight: 500; color: #fff; letter-spacing: 1px; }
+.settings-btn { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 16px; color: rgba(224,224,240,0.6); }
+
+.profile-hero { display: flex; align-items: center; gap: 14px; padding: 4px 16px 16px; flex-shrink: 0; }
+.avatar-lg { width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #5244cc, #9f3fbf); display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 500; color: #fff; border: 2px solid rgba(255,255,255,0.15); flex-shrink: 0; }
+.profile-info { flex: 1; }
+.profile-username { font-size: 18px; font-weight: 500; color: #fff; }
+.profile-handle { font-size: 12px; color: rgba(224,224,240,0.4); margin-top: 1px; }
+.profile-car { font-size: 11px; color: #a89ff5; margin-top: 4px; display: flex; align-items: center; gap: 4px; }
+.ghost-toggle { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 5px 12px; font-size: 11px; color: rgba(224,224,240,0.5); display: flex; align-items: center; gap: 5px; }
+
+.friends-row { display: flex; align-items: center; gap: 8px; padding: 0 16px 14px; flex-shrink: 0; }
+.friend-chip { display: flex; align-items: center; gap: 5px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-radius: 20px; padding: 4px 10px 4px 4px; }
+.fc-dot { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 500; color: #fff; }
+.fc-name { font-size: 11px; color: rgba(224,224,240,0.6); }
+.friends-count { font-size: 11px; color: rgba(224,224,240,0.3); margin-left: auto; }
+
+.stat-band { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 0 12px 12px; flex-shrink: 0; }
+.sband-item { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 10px 8px; text-align: center; }
+.sband-val { font-size: 17px; font-weight: 500; color: #e0e0f0; }
+.sband-val.gold { color: #ef9f27; }
+.sband-val.purple { color: #a89ff5; }
+.sband-lbl { font-size: 10px; color: rgba(224,224,240,0.4); margin-top: 2px; }
+
+.section-header { display: flex; align-items: center; justify-content: space-between; padding: 2px 16px 8px; flex-shrink: 0; }
+.section-title { font-size: 12px; font-weight: 500; color: rgba(224,224,240,0.4); letter-spacing: 0.5px; }
+.section-more { font-size: 11px; color: #a89ff5; }
+
+.city-list { padding: 0 12px; display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
+.city-row { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 9px 12px; }
+.city-emoji { font-size: 18px; flex-shrink: 0; }
+.city-info { flex: 1; }
+.city-name { font-size: 13px; font-weight: 500; color: #e0e0f0; }
+.city-track { width: 100%; height: 3px; background: rgba(255,255,255,0.07); border-radius: 2px; margin-top: 5px; overflow: hidden; }
+.city-fill { height: 100%; border-radius: 2px; background: #1d9e75; }
+.city-pct { font-size: 12px; font-weight: 500; color: #5dcaa5; }
+
+.trips-list { padding: 0 12px 12px; display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
+.trip-row { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px; padding: 9px 12px; }
+.trip-icon { width: 30px; height: 30px; border-radius: 8px; background: rgba(82,68,204,0.2); display: flex; align-items: center; justify-content: center; font-size: 13px; color: #a89ff5; flex-shrink: 0; }
+.trip-info { flex: 1; }
+.trip-name { font-size: 12px; font-weight: 500; color: #e0e0f0; }
+.trip-sub { font-size: 10px; color: rgba(224,224,240,0.4); margin-top: 1px; }
+.trip-stats { text-align: right; }
+.trip-top { font-size: 13px; font-weight: 500; color: #ef9f27; }
+.trip-dist { font-size: 10px; color: rgba(224,224,240,0.4); margin-top: 1px; }
+
+.bottom-nav { display: flex; background: rgba(10,10,20,0.97); border-top: 1px solid rgba(255,255,255,0.07); padding: 8px 8px 22px; flex-shrink: 0; margin-top: auto; position: sticky; bottom: 0; }
+.nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 4px; }
+.nav-icon { font-size: 20px; color: rgba(224,224,240,0.35); }
+.nav-icon.active { color: #a89ff5; }
+.nav-lbl { font-size: 10px; color: rgba(224,224,240,0.35); }
+.nav-lbl.active { color: #a89ff5; }
+.screen-label { font-size: 11px; color: var(--color-text-tertiary); text-align: center; margin-top: 8px; letter-spacing: 0.5px; }
+
+.panel-wrap { display: flex; flex-direction: column; gap: 16px; width: 260px; padding-top: 2rem; }
+.callout-card { background: var(--color-background-secondary); border: 1px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px 16px; }
+.ptitle { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 10px; letter-spacing: 0.3px; }
+.callout-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.callout-row:last-child { margin-bottom: 0; }
+.callout-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+.ci-purple { background: #EEEDFE; color: #534AB7; }
+.ci-amber  { background: #FAEEDA; color: #854F0B; }
+.ci-teal   { background: #E1F5EE; color: #0F6E56; }
+.ci-coral  { background: #FAECE7; color: #993C1D; }
+@media (prefers-color-scheme: dark) {
+  .ci-purple { background: #26215C; color: #AFA9EC; }
+  .ci-amber  { background: #412402; color: #EF9F27; }
+  .ci-teal   { background: #04342C; color: #5DCAA5; }
+  .ci-coral  { background: #4A1B0C; color: #F0997B; }
+}
+.callout-text { font-size: 13px; color: var(--color-text-primary); font-weight: 500; }
+.callout-sub  { font-size: 12px; color: var(--color-text-secondary); margin-top: 1px; }
+</style>
+
+<div class="screen-wrap">
+  <div style="display:flex;flex-direction:column;align-items:center;">
+    <div class="phone">
+      <div class="notch"></div>
+      <div class="screen">
+        <div class="status-bar">
+          <span class="status-time">9:41</span>
+          <div class="status-icons">
+            <i class="ti ti-wifi" style="font-size:13px;"></i>
+            <i class="ti ti-battery-3" style="font-size:13px;"></i>
+          </div>
+        </div>
+        <div class="top-bar">
+          <span class="app-name">flyby</span>
+          <div class="settings-btn"><i class="ti ti-settings"></i></div>
+        </div>
+
+        <div class="profile-hero">
+          <div class="avatar-lg">JR</div>
+          <div class="profile-info">
+            <div class="profile-username">j_regal</div>
+            <div class="profile-handle">member since jan 2025</div>
+            <div class="profile-car"><i class="ti ti-car" style="font-size:11px;"></i> 2023 Civic Type R · E85</div>
+          </div>
+          <div class="ghost-toggle"><i class="ti ti-ghost" style="font-size:12px;"></i> ghost off</div>
+        </div>
+
+        <div class="friends-row">
+          <div class="friend-chip">
+            <div class="fc-dot" style="background:linear-gradient(135deg,#993C1D,#e85d24);">MX</div>
+            <span class="fc-name">mx5_turbo</span>
+          </div>
+          <div class="friend-chip">
+            <div class="fc-dot" style="background:linear-gradient(135deg,#085041,#1d9e75);">K9</div>
+            <span class="fc-name">k9_wrx</span>
+          </div>
+          <div class="friend-chip">
+            <div class="fc-dot" style="background:linear-gradient(135deg,#3C3489,#7f77dd);">SL</div>
+            <span class="fc-name">sl_rsx</span>
+          </div>
+          <span class="friends-count">+8 more</span>
+        </div>
+
+        <div class="stat-band">
+          <div class="sband-item">
+            <div class="sband-val gold">87</div>
+            <div class="sband-lbl">top mph</div>
+          </div>
+          <div class="sband-item">
+            <div class="sband-val">2,341</div>
+            <div class="sband-lbl">total miles</div>
+          </div>
+          <div class="sband-item">
+            <div class="sband-val purple">#6</div>
+            <div class="sband-lbl">global rank</div>
+          </div>
+          <div class="sband-item">
+            <div class="sband-val">48</div>
+            <div class="sband-lbl">avg mph</div>
+          </div>
+          <div class="sband-item">
+            <div class="sband-val">142</div>
+            <div class="sband-lbl">trips</div>
+          </div>
+          <div class="sband-item">
+            <div class="sband-val gold">3</div>
+            <div class="sband-lbl">cities explored</div>
+          </div>
+        </div>
+
+        <div class="section-header">
+          <span class="section-title">CITY EXPLORATION</span>
+          <span class="section-more">see all</span>
+        </div>
+        <div class="city-list">
+          <div class="city-row">
+            <div class="city-emoji">🇨🇦</div>
+            <div class="city-info">
+              <div class="city-name">Montréal</div>
+              <div class="city-track"><div class="city-fill" style="width:34%;"></div></div>
+            </div>
+            <div class="city-pct">34%</div>
+          </div>
+          <div class="city-row">
+            <div class="city-emoji">🏙️</div>
+            <div class="city-info">
+              <div class="city-name">Toronto</div>
+              <div class="city-track"><div class="city-fill" style="width:18%;background:#a89ff5;"></div></div>
+            </div>
+            <div class="city-pct" style="color:#a89ff5;">18%</div>
+          </div>
+          <div class="city-row">
+            <div class="city-emoji">🌆</div>
+            <div class="city-info">
+              <div class="city-name">Hamilton</div>
+              <div class="city-track"><div class="city-fill" style="width:61%;"></div></div>
+            </div>
+            <div class="city-pct">61%</div>
+          </div>
+        </div>
+
+        <div class="section-header" style="margin-top:8px;">
+          <span class="section-title">RECENT TRIPS</span>
+          <span class="section-more">see all</span>
+        </div>
+        <div class="trips-list">
+          <div class="trip-row">
+            <div class="trip-icon"><i class="ti ti-road"></i></div>
+            <div class="trip-info">
+              <div class="trip-name">Evening cruise</div>
+              <div class="trip-sub">today · 18:42 · 48 avg mph</div>
+            </div>
+            <div class="trip-stats">
+              <div class="trip-top">87 mph</div>
+              <div class="trip-dist">12.4 mi</div>
+            </div>
+          </div>
+          <div class="trip-row">
+            <div class="trip-icon"><i class="ti ti-users"></i></div>
+            <div class="trip-info">
+              <div class="trip-name">Convoy · Skyline run</div>
+              <div class="trip-sub">yesterday · 41:20 · 52 avg mph</div>
+            </div>
+            <div class="trip-stats">
+              <div class="trip-top">94 mph</div>
+              <div class="trip-dist">28.1 mi</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bottom-nav">
+          <div class="nav-item"><i class="ti ti-map nav-icon"></i><span class="nav-lbl">map</span></div>
+          <div class="nav-item"><i class="ti ti-trophy nav-icon"></i><span class="nav-lbl">boards</span></div>
+          <div class="nav-item"><i class="ti ti-users nav-icon"></i><span class="nav-lbl">crew</span></div>
+          <div class="nav-item"><i class="ti ti-car nav-icon"></i><span class="nav-lbl">garage</span></div>
+          <div class="nav-item"><i class="ti ti-user nav-icon active"></i><span class="nav-lbl active">profile</span></div>
+        </div>
+      </div>
+    </div>
+    <p class="screen-label">profile · j_regal</p>
+  </div>
+
+  <div class="panel-wrap">
+    <div class="callout-card">
+      <p class="ptitle">design decisions</p>
+      <div class="callout-row">
+        <div class="callout-icon ci-purple"><i class="ti ti-ghost"></i></div>
+        <div><div class="callout-text">Ghost mode toggle</div><div class="callout-sub">Right on the profile, always accessible</div></div>
+      </div>
+      <div class="callout-row">
+        <div class="callout-icon ci-teal"><i class="ti ti-map-pin"></i></div>
+        <div><div class="callout-text">City exploration bars</div><div class="callout-sub">Progress per city, instantly satisfying</div></div>
+      </div>
+      <div class="callout-row">
+        <div class="callout-icon ci-amber"><i class="ti ti-road"></i></div>
+        <div><div class="callout-text">Trip history</div><div class="callout-sub">Every run logged with top speed + distance</div></div>
+      </div>
+      <div class="callout-row">
+        <div class="callout-icon ci-coral"><i class="ti ti-users"></i></div>
+        <div><div class="callout-text">Friends shown upfront</div><div class="callout-sub">Your crew is part of your identity here</div></div>
+      </div>
+    </div>
+    <div class="callout-card">
+      <p class="ptitle">all 5 screens done ✓</p>
+      <div class="callout-row">
+        <div class="callout-icon ci-teal"><i class="ti ti-check"></i></div>
+        <div><div class="callout-text">UI design complete</div><div class="callout-sub">Map, boards, convoy, garage, profile</div></div>
+      </div>
+      <div class="callout-row">
+        <div class="callout-icon ci-purple"><i class="ti ti-rocket"></i></div>
+        <div><div class="callout-text">Ready for Phase 1</div><div class="callout-sub">Expo setup, auth, DB schema, map</div></div>
+      </div>
+    </div>
+  </div>
+</div>
