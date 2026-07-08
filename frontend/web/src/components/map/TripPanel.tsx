@@ -39,8 +39,8 @@ export function TripPanel({
       {recording && (
         <>
           {/* Central speed HUD */}
-          <div className="pointer-events-none absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 text-center">
-            <div className="text-[64px] font-medium leading-none tracking-tight text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)]">
+          <div className="pointer-events-none absolute left-1/2 top-[46%] z-10 -translate-x-1/2 -translate-y-1/2 text-center md:top-1/2">
+            <div className="text-[52px] font-medium leading-none tracking-tight text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)] md:text-[64px]">
               {speedValue(recorder.currentSpeedKmh, pref)}
             </div>
             <div className="mt-1 text-xs uppercase tracking-[0.2em] text-white/45">
@@ -49,7 +49,7 @@ export function TripPanel({
           </div>
 
           {/* Top-speed banner */}
-          <div className="pointer-events-none absolute right-4 top-20 z-20 rounded-xl border border-amber-500/40 bg-surface-2/90 px-3 py-2 backdrop-blur">
+          <div className="pointer-events-none absolute right-3 top-[122px] z-20 rounded-xl border border-amber-500/40 bg-surface-2/90 px-3 py-2 backdrop-blur md:right-4 md:top-20">
             <div className="text-[10px] uppercase tracking-wide text-amber-500">
               Top speed
             </div>
@@ -62,7 +62,7 @@ export function TripPanel({
           </div>
 
           {/* Live stats strip */}
-          <div className="pointer-events-none absolute bottom-24 left-4 right-4 z-20 flex rounded-2xl border border-edge bg-surface-2/90 px-1 py-2.5 backdrop-blur">
+          <div className="pointer-events-none absolute bottom-40 left-3 right-3 z-20 flex rounded-2xl border border-edge bg-surface-2/90 px-1 py-2.5 backdrop-blur md:bottom-24 md:left-4 md:right-4">
             <Stat
               value={formatDistance(recorder.distanceKm, pref).split(" ")[0]}
               label={distanceUnit(pref)}
@@ -86,7 +86,7 @@ export function TripPanel({
       )}
 
       {/* Record button */}
-      <div className="absolute bottom-6 left-1/2 z-30 -translate-x-1/2">
+      <div className="absolute bottom-24 left-1/2 z-30 -translate-x-1/2 md:bottom-6">
         <button
           type="button"
           onClick={recording ? onStop : onStart}

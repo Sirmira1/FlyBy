@@ -138,7 +138,7 @@ export default function ProfilePage() {
     >
       <div className="mx-auto max-w-2xl space-y-6">
         <Card>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-brand text-xl font-semibold text-white">
               {initials}
             </div>
@@ -290,7 +290,7 @@ export default function ProfilePage() {
                   return (
                     <div
                       key={t.id}
-                      className="flex items-center justify-between py-3 first:pt-0 last:pb-0"
+                      className="flex flex-col gap-2 py-3 first:pt-0 last:pb-0 sm:flex-row sm:items-center sm:justify-between"
                     >
                       <div className="min-w-0">
                         <div className="text-sm font-medium text-ink">
@@ -301,7 +301,7 @@ export default function ProfilePage() {
                           {formatSpeed(t.avg_speed, pref)} avg
                         </div>
                       </div>
-                      <div className="text-right">
+                      <div className="text-left sm:text-right">
                         <div className="text-sm font-semibold text-[#ef9f27]">
                           {formatSpeed(t.top_speed, pref)}
                         </div>

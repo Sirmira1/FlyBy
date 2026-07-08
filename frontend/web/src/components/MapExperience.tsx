@@ -101,6 +101,7 @@ export default function MapExperience({ initialMarkers }: MapExperienceProps) {
 
   const [viewport, setViewport] = useState<Viewport | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [mobilePanelOpen, setMobilePanelOpen] = useState(false);
   const mapRef = useRef<MapViewHandle>(null);
 
   // Cluster/pin items for the current viewport.
@@ -143,6 +144,7 @@ export default function MapExperience({ initialMarkers }: MapExperienceProps) {
   const handleSelectMarker = useCallback(
     (marker: AnyMarker) => {
       setSelectedId(marker.id);
+      setMobilePanelOpen(true);
       mapRef.current?.flyTo(marker.position, Math.max(viewport?.zoom ?? 14, 14));
     },
     [viewport?.zoom],
@@ -250,27 +252,29 @@ export default function MapExperience({ initialMarkers }: MapExperienceProps) {
 
   return (
     <div className="flex h-full w-full overflow-hidden bg-surface text-ink">
-      <Sidebar
-        crewOnline={crewOnline}
-        totalVisible={markersApi.visible.length}
-        syncing={syncing}
-        onRefresh={handleRefresh}
-        search={markersApi.search}
-        onSearchChange={markersApi.setSearch}
-        categories={markersApi.categories}
-        counts={markersApi.counts}
-        onToggleCategory={markersApi.toggleCategory}
-        onClearFilters={markersApi.clearFilters}
-        isFiltered={markersApi.isFiltered}
-        listItems={listItems}
-        selectedMarker={selectedMarker}
-        origin={origin}
-        favorites={favorites.ids}
-        onSelectMarker={handleSelectMarker}
-        onToggleFavorite={favorites.toggle}
-        onCloseDetails={() => setSelectedId(null)}
-        onCenterMarker={handleSelectMarker}
-      />
+      <aside className="hidden h-full w-[360px] shrink-0 border-r border-edge md:block">
+        <Sidebar
+          crewOnline={crewOnline}
+          totalVisible={markersApi.visible.length}
+          syncing={syncing}
+          onRefresh={handleRefresh}
+          search={markersApi.search}
+          onSearchChange={markersApi.setSearch}
+          categories={markersApi.categories}
+          counts={markersApi.counts}
+          onToggleCategory={markersApi.toggleCategory}
+          onClearFilters={markersApi.clearFilters}
+          isFiltered={markersApi.isFiltered}
+          listItems={listItems}
+          selectedMarker={selectedMarker}
+          origin={origin}
+          favorites={favorites.ids}
+          onSelectMarker={handleSelectMarker}
+          onToggleFavorite={favorites.toggle}
+          onCloseDetails={() => setSelectedId(null)}
+          onCenterMarker={handleSelectMarker}
+        />
+      </aside>
 
       <main className="relative flex-1">
         <MapView
@@ -293,12 +297,49 @@ export default function MapExperience({ initialMarkers }: MapExperienceProps) {
         <ExploreBar city={exploration.city} />
 
         {/* Status pill, echoing the mobile "live" header. */}
-        <div className="pointer-events-none absolute left-1/2 top-4 z-20 inline-flex -translate-x-1/2 items-center gap-2 rounded-full border border-edge bg-surface-2/90 px-3 py-1.5 text-xs text-ink-soft backdrop-blur">
+        <div className="pointer-events-none absolute left-1/2 top-20 z-20 inline-flex -translate-x-1/2 items-center gap-2 rounded-full border border-edge bg-surface-2/90 px-3 py-1.5 text-xs text-ink-soft backdrop-blur md:top-4">
           <span className="font-medium text-ink">{markersApi.visible.length}</span> on map
           <span className="text-ink-mute">·</span>
           <span className="flyby-pulse-soft h-1.5 w-1.5 rounded-full bg-brand-soft" />
           <span className="font-medium text-ink">{crewOnline}</span> live
         </div>
+
+        <button
+          type="button"
+          onClick={() => setMobilePanelOpen((value) => !value)}
+          className="absolute left-4 bottom-24 z-30 inline-flex items-center gap-2 rounded-full border border-edge bg-surface-2/90 px-3 py-1.5 text-xs text-ink shadow-lg backdrop-blur md:hidden"
+        >
+          <span>{mobilePanelOpen ? "▾" : "▴"}</span>
+          {selectedMarker ? "Location details" : "Browse places"}
+        </button>
+
+        <aside
+          className={`absolute inset-x-3 bottom-[92px] z-30 h-[62vh] overflow-hidden rounded-2xl border border-edge bg-surface-2/95 shadow-2xl backdrop-blur transition-transform duration-300 md:hidden ${
+            mobilePanelOpen ? "translate-y-0" : "translate-y-[calc(100%-42px)]"
+          }`}
+        >
+          <Sidebar
+            crewOnline={crewOnline}
+            totalVisible={markersApi.visible.length}
+            syncing={syncing}
+            onRefresh={handleRefresh}
+            search={markersApi.search}
+            onSearchChange={markersApi.setSearch}
+            categories={markersApi.categories}
+            counts={markersApi.counts}
+            onToggleCategory={markersApi.toggleCategory}
+            onClearFilters={markersApi.clearFilters}
+            isFiltered={markersApi.isFiltered}
+            listItems={listItems}
+            selectedMarker={selectedMarker}
+            origin={origin}
+            favorites={favorites.ids}
+            onSelectMarker={handleSelectMarker}
+            onToggleFavorite={favorites.toggle}
+            onCloseDetails={() => setSelectedId(null)}
+            onCenterMarker={handleSelectMarker}
+          />
+        </aside>
 
         <MapLegend />
         <MapControls

@@ -24,7 +24,7 @@ export function MapControls({
   onToggleFog,
 }: MapControlsProps) {
   return (
-    <div className="absolute bottom-6 right-4 z-20 flex flex-col gap-2">
+    <div className="absolute bottom-24 right-3 z-20 flex flex-col gap-2 md:bottom-6 md:right-4">
       <ControlButton
         label={fogEnabled ? "Hide fog of war" : "Show fog of war"}
         onClick={onToggleFog}
@@ -65,7 +65,7 @@ interface ControlButtonProps {
 
 function ControlButton({ label, onClick, active, bare, children }: ControlButtonProps) {
   const base =
-    "grid h-10 w-10 place-items-center text-lg text-ink-soft transition-colors hover:text-ink";
+    "grid h-11 w-11 place-items-center text-lg text-ink-soft transition-colors hover:text-ink md:h-10 md:w-10";
   if (bare) {
     return (
       <button type="button" aria-label={label} title={label} onClick={onClick} className={base}>

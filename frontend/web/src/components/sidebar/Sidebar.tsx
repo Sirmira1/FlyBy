@@ -42,8 +42,8 @@ export function Sidebar(props: SidebarProps) {
   const selectedId = props.selectedMarker?.id ?? null;
 
   return (
-    <aside className="flex h-full w-full shrink-0 flex-col border-r border-edge bg-surface-2 sm:w-[360px]">
-      <header className="flex items-center justify-between border-b border-edge px-5 py-4">
+    <aside className="flex h-full w-full shrink-0 flex-col bg-surface-2">
+      <header className="flex items-center justify-between border-b border-edge px-4 py-3 sm:px-5 sm:py-4">
         <div className="flex items-center gap-2.5">
           <span className="text-lg font-semibold tracking-wide text-white">flyby</span>
           <span className="inline-flex items-center gap-1.5 rounded-full border border-brand/50 bg-brand/20 px-2.5 py-1 text-[11px] text-brand-soft">
@@ -62,7 +62,7 @@ export function Sidebar(props: SidebarProps) {
         </button>
       </header>
 
-      <div className="min-h-0 flex-1 overflow-y-auto p-4">
+      <div className="min-h-0 flex-1 overflow-y-auto p-3 sm:p-4">
         {props.selectedMarker ? (
           <LocationDetails
             marker={props.selectedMarker}

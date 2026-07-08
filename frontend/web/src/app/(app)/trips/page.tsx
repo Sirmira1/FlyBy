@@ -120,7 +120,7 @@ export default function TripsPage() {
         )}
 
         {!loading && trips.length > 0 && (
-          <div className="mb-5 grid grid-cols-3 gap-3">
+          <div className="mb-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
             <Card>
               <div className="text-lg font-semibold text-ink">{trips.length}</div>
               <div className="text-xs text-ink-soft">Trips</div>
@@ -153,7 +153,7 @@ export default function TripsPage() {
           <ul className="space-y-2">
             {trips.map((trip) => (
               <li key={trip.id}>
-                <Card className="flex items-center justify-between gap-4 py-3">
+                <Card className="flex flex-col gap-3 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
                   <div className="min-w-0">
                     <div className="text-sm font-medium text-ink">
                       {formatDistance(trip.distance, pref)}
@@ -173,7 +173,7 @@ export default function TripsPage() {
                       {trip.is_convoy ? " · 🚗 convoy" : ""}
                     </div>
                   </div>
-                  <div className="flex shrink-0 items-center gap-4">
+                  <div className="flex shrink-0 items-center justify-between gap-4 sm:justify-end">
                     <div className="text-right">
                       <div className="text-sm font-medium text-teal-soft">
                         {formatSpeed(trip.top_speed, pref)}
@@ -198,7 +198,7 @@ export default function TripsPage() {
       <Modal open={open} onClose={() => setOpen(false)} title="Log a trip">
         <form onSubmit={submit} className="space-y-3">
           {formError && <Notice>{formError}</Notice>}
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <TextField
               label={`Distance (${distanceUnit(pref)})`}
               type="number"
@@ -216,7 +216,7 @@ export default function TripsPage() {
               placeholder="18"
             />
           </div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <TextField
               label={`Top speed (${speedUnit(pref)})`}
               type="number"

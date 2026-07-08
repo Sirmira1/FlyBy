@@ -70,7 +70,7 @@ function VehicleCard({
 
   return (
     <Card className="space-y-4">
-      <div className="flex items-start justify-between gap-3">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">
           <div className="flex items-center gap-2">
             <h3 className="truncate text-base font-semibold text-ink">{title}</h3>
@@ -82,7 +82,7 @@ function VehicleCard({
           </div>
           {subtitle && <p className="mt-0.5 text-sm text-ink-soft">{subtitle}</p>}
         </div>
-        <div className="flex shrink-0 gap-2">
+        <div className="flex shrink-0 gap-2 self-start sm:self-auto">
           {!vehicle.is_active && (
             <Button variant="secondary" onClick={() => onSetActive(vehicle.id)}>
               Set active
@@ -265,7 +265,7 @@ export default function GaragePage() {
             onChange={(e) => set("nickname", e.target.value)}
             placeholder="Project car"
           />
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <TextField
               label="Make"
               value={form.make}
@@ -279,7 +279,7 @@ export default function GaragePage() {
               placeholder="WRX STI"
             />
           </div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <TextField
               label="Year"
               type="number"
@@ -294,7 +294,7 @@ export default function GaragePage() {
               placeholder="Petrol / EV"
             />
           </div>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             <TextField
               label="Horsepower"
               type="number"

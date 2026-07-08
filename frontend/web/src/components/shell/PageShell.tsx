@@ -17,16 +17,16 @@ export function PageShell({
 }) {
   return (
     <div className="flex h-full flex-col bg-surface text-ink">
-      <header className="flex items-center justify-between gap-4 border-b border-edge px-6 py-4">
+      <header className="flex flex-wrap items-center justify-between gap-3 border-b border-edge px-4 py-3 sm:px-6 sm:py-4">
         <div className="min-w-0">
           <h1 className="truncate text-lg font-semibold">{title}</h1>
           {subtitle && (
             <p className="mt-0.5 truncate text-sm text-ink-soft">{subtitle}</p>
           )}
         </div>
-        {actions && <div className="flex items-center gap-2">{actions}</div>}
+        {actions && <div className="flex w-full items-center justify-end gap-2 sm:w-auto">{actions}</div>}
       </header>
-      <div className="flex-1 overflow-y-auto px-6 py-6">{children}</div>
+      <div className="flex-1 overflow-y-auto px-4 py-4 sm:px-6 sm:py-6">{children}</div>
     </div>
   );
 }
